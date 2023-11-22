@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}All Auctions{% endblock title %}
+
+{%block body%}
+
+<div class="container-fluid p-4">
+    <div class="card">
+        <div class="card-header bg-darkblue">
+            <h5 style="color: whitesmoke;" class="fw-bold">ALL ONGOING AUCTIONS</h5>
+        </div>
+    </div>
+
+
+    <div class="row my-2 gap-2 gap-md-0">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-darkblue">
+                    <span style="color: whitesmoke;" class="fw-bold">Ongoing Auctions</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if ongoing_auctions %}
+                        {% for product in ongoing_auctions %}
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card mb-3">
+                                <a href="{% url 'product_details' product.id %}">
+                                    {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                                        class="card-img-top image-small image-medium image-large rounded">
+                                    {% else %}
+                                    <!-- Display a placeholder image or message for products without images -->
+                                    <p>No image available</p>
+                                    {% endif %}
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text">Starting Price: ${{ product.start_price }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p>Oooops!!! There are currently no ongoing auctions</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 sticky-form-container">
+            <div class="card mb-3">
+                <div class="card-header bg-darkblue">
+                    <span style="color: whitesmoke;" class="fw-bold">Recently Added Auctions</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for product in recent_products %}
+                        <div class="">
+                            <div class="card-header mb-2">
+                                <a href="{% url 'product_details' product.id %}">
+                                    <div class="row small">
+                                        <div class="col-6 text-secondary">{{ product.name }}</div>
+                                        <div class="col-6 text-secondary fw-semibold">${{ product.start_price }}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-darkblue">
+                    <span style="color: whitesmoke;" class="fw-bold">About Due Auctions</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for product in recent_products %}
+                        <div class="">
+                            <div class="card-header mb-2 small">
+                                <div class="row">
+                                    <div class="col-6">{{ product.name }}</div>
+                                    <div class="col-6">${{ product.start_price }}</div>
+                                </div>
+                                <div>Due On:: <span>{{ product.end_time }}</span></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="container-fluid">
+
+</div>
+
+{% endblock body %}

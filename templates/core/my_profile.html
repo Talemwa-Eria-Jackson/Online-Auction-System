@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock title %}
+
+{%block body%}
+
+<div class="container-fluid p-4">
+    <div class="card">
+        <div class="card-header bg-darkblue">
+            <h5 style="color: whitesmoke;" class="fw-bold">EDIT PROFILE</h5>
+        </div>
+
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+                <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

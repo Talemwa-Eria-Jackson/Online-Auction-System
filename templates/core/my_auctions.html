@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}My Auctions{% endblock title %}
+
+{%block body%}
+
+<div class="container-fluid p-4">
+
+    <div class="row mb-3 gap-2 gap-md-0">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-darkblue">
+                    <h5 style="color: whitesmoke;" class="fw-bold">LIST OF MY AUCTIONS</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if user_products %}
+                        {% for product in user_products %}
+                        <div class="col-6 col-sm-4">
+                            <div class="card mb-3">
+
+                                <a href="{% url 'product_details' product.id %}">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                                        class="image-small image-medium image-large rounded">
+                                    <div class="card-body">
+                                        <div>{{ product.name }}</div>
+                                        <div class="row">
+                                            <div class="col-6">{{ product.start_price }}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="card-footer mx-auto">
+                                    <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-pencil"></i> Edit
+                                    </a>
+
+                                    {% if product.id %}
+                                    <a href="{% url 'delete_product' product.id %}" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </a>
+                                    {% endif %}
+
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p class="text-center">Oooops!!! You have no ongoing auctions</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="sticky-form-container">
+                <div class="card bg-darkblue mb-3">
+                    <div class="card-header bg-darkblue">
+                        <h5 style="color: whitesmoke;" class="fw-semibold ">ADD A NEW PRODUCT</h5>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" action="">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="name" class="">Product Name:</label><br>
+                        {{ form.name }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_price">Product Starting Price:</label><br>
+                        {{ form.start_price }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_time">Auction End Date:</label><br>
+                        {{ form.end_time }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Product Image:</label><br>
+                        {{ form.image }}
+                        <div id="product_image" class="form-text text-darkblue">Upload pictures for the product</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name">Product Description:</label><br>
+                        {{ form.description }}
+                    </div>
+
+                    <button type="submit" class="btn bg-darkblue w-100 fw-semibold" style="color: whitesmoke;"><i
+                            class="fa fa-plus-circle" aria-hidden="true"></i> Add Product</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock body %}
